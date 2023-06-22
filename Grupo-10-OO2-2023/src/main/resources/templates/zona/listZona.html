@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html xmlns:th="htpp://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Lista de Zonas</title>
+</head>
+
+<body>
+
+	<tr th:each="zona : ${listZona}">
+		<!-- bucle fore que recorre la lista -->
+		<td th:text="${zona.nombre}">Nombre del edificio</td>
+	
+	</tr>
+
+
+</body>
+</html>
