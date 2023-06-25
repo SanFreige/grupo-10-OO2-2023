@@ -7,20 +7,25 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Data
-@Table(name="zona")
-public class Zona {
+@Table(name="Dispositivo")
+public class Dispositivo {
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int idZona;
+	private int idDispsitivo;
 	
 	@Column(name="nombre",columnDefinition="varchar(45)")
 	private String nombre;
 	
+	@Column(name="zona",columnDefinition="varchar(45)")
+	private String zona;
 	
+	@Column(name="fechaHora",columnDefinition="LocalDateTime")
+	private String fechaHora;
+	
+	@Column(name="baja",columnDefinition="boolean")
+	private String baja;
 }
