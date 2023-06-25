@@ -15,7 +15,7 @@ public class Dispositivo {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int idDispsitivo;
+	private int idDispositivo;
 	
 	@Column(name="nombre",columnDefinition="varchar(45)")
 	private String nombre;
@@ -27,5 +27,5 @@ public class Dispositivo {
 	private String fechaHora;
 	
 	@Column(name="baja",columnDefinition="boolean")
-	private String baja;
+	private boolean baja;
 }
