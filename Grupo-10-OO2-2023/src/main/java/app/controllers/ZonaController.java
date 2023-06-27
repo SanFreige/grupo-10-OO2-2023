@@ -1,5 +1,7 @@
 package app.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import app.models.Zona;
 import app.repositories.IZonaRepository;
 import app.service.IZonaService;
-import jakarta.validation.Valid;
+import lombok.var;
 
 @Controller
 @RequestMapping("/")
@@ -23,10 +25,6 @@ public class ZonaController {
 
 	@GetMapping("/zonas")
 	public String traerTodasZonas(Model model) {
-		// log.info("CONTROLLER [BUILDING]"); // info console: Para no perder la pista
-		// del controlador (opcional)
-		// log.debug("METHOD [Buildings]"); // details console: Para saber que metodo se
-		// esta ejecutando (opcional)
 
 		var listZona = services.getAll(); // var = Lombok
 
@@ -37,50 +35,39 @@ public class ZonaController {
 	}
 
 	@GetMapping("/{idZona}")
-	public String traerPorId(Model model, @PathVariable int idZona) { // Relaciona el Id con el parametro
-
-		// log.info("CONTROLLER [BUILDING]"); // info console
-		// log.debug("METHOD [bringBuilding]"); // details console
-
+	public String traerPorId(Model model, @PathVariable int idZona) {
 		model.addAttribute("zona", services.findById(idZona));
 
 		return "zona/zona";
 	}
 
 	@PostMapping("/addZona")
-	public String guardarZona(@Valid Zona zona, Errors error) // Inyecta automaticamente al ser metodo <post> busca en:
-																// th:action="@{/addBuilding}" method="post"
+	public String guardarZona(@Valid Zona zona, Errors error)
 	{
-		// log.info("CONTROLLER [Building]"); // info console
-		// log.debug("METHOD [saveBuilding]"); // details console
-
-		if (error.hasErrors()) // En caso de un error en las validaciones
+		if (error.hasErrors())
 		{
-			return "zona/insert"; // Se queda en la pagina y muestra los errores
+			return "zona/insert";
 		}
 
 		services.insertOrUpdate(zona);
 		return "redirect:/zona/listZona";
 	}
 
-	@GetMapping("/editZona") // Al pasarle el parametro {idBuilding} lo relaciona con el parametro de
-								// Building
+	@GetMapping("/editZona") 
 	public String editarZona(Zona zona, Model model) {
 
-		model.addAttribute("zona", services.findById(zona.getIdZona())); // Necesario "instanciar" el objeto para ser
-																			// mostrado en Thymeleaf
+		model.addAttribute("zona", services.findById(zona.getIdZona()));
 
-		return "zona/modify"; // go to: pagina de ins
+		return "zona/modify";
 	}
 
 	@PostMapping("/editZona")
-	public String editarZona(@Valid Zona zona, Errors error) // Inyecta automaticamente al ser metodo <post> busca en:
-																// th:action="@{/addBuilding}" method="post"
+	public String editarZona(@Valid Zona zona, Errors error) 
 	{
 
-		if (error.hasErrors()) // En caso de un error en las validaciones
+		if (error.hasErrors()) 
 		{
-			return "zona/modify"; // Se queda en la pagina y muestra los errores
+			return "zona/modify"; 
 		}
 
 		services.insertOrUpdate(zona);
@@ -88,11 +75,11 @@ public class ZonaController {
 	}
 
 	// Type: Query Parameter
-	@GetMapping("/deleteZona") // Relaciona el IdRole en el HTML con el controlador para "apuntar" al correcto
+	@GetMapping("/deleteZona") 
 	public String eliminarZona(Zona zona) {
 
-		services.remove(zona.getIdZona()); // remueve el rol
+		services.remove(zona.getIdZona()); 
 
-		return "redirect:/zona/listZona"; // go to: home page
+		return "redirect:/zona/listZona"; 
 	}
 }

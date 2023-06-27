@@ -1,15 +1,14 @@
 package app.service.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import app.models.Dispositivo;
 import app.models.DispositivoEstacionamiento;
-import app.models.Zona;
 import app.repositories.IDispositivoEstacionamientoRepository;
-import app.repositories.IZonaRepository;
 import app.service.IDispositivoEstacionamientoService;
 
-public class DispositivoEstacionamientoService implements IDispositivoEstacionamientoService{
+@Service
+public class DispositivoEstacionamientoService implements IDispositivoEstacionamientoService {
 
 	@Autowired()
 	private IDispositivoEstacionamientoRepository repositorio;

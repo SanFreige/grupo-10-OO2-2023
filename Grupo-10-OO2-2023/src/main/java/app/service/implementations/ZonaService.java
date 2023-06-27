@@ -9,7 +9,7 @@ import app.models.Zona;
 import app.repositories.IZonaRepository;
 import app.service.IZonaService;
 @Service
-public class ZonaService implements IZonaService{
+public class ZonaService implements IZonaService {
 	
 	@Autowired()
 	private IZonaRepository repositorio;

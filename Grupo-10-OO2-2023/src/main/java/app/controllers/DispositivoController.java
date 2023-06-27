@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import app.models.Dispositivo;
 import app.models.Zona;
 import app.service.IDispositivoService;
-import jakarta.validation.Valid;
+import lombok.var;
 
 @Controller
 @RequestMapping("/")
@@ -22,24 +22,16 @@ public class DispositivoController {
 	
 	@GetMapping("/dispositivos")
 	public String traerTodosDispositivos(Model model) {
-		// log.info("CONTROLLER [BUILDING]"); // info console: Para no perder la pista
-		// del controlador (opcional)
-		// log.debug("METHOD [Buildings]"); // details console: Para saber que metodo se
-		// esta ejecutando (opcional)
 
 		var listDispositivos = services.getAll(); // var = Lombok
 
-		// inyeccion Thymeleaf
 		model.addAttribute("listDispositivos", listDispositivos);
 
-		return "zona/listDispositivos";
+		return "dispositivo/listDispositivos";
 	}
 
 	@GetMapping("/{idDispositivo}")
-	public String traerPorId(Model model, @PathVariable int idDispositivo) { // Relaciona el Id con el parametro
-
-		// log.info("CONTROLLER [BUILDING]"); // info console
-		// log.debug("METHOD [bringBuilding]"); // details console
+	public String traerPorId(Model model, @PathVariable int idDispositivo) { 
 
 		model.addAttribute("dispositivo", services.findById(idDispositivo));
 

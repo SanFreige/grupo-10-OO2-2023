@@ -1,18 +1,16 @@
 package app.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
-@Data
-@Table(name="DispositivoEstacionamiento")
-public class DispositivoEstacionamiento extends Dispositivo{
+@Table(name = "dispositivoEstacionamiento")
+public class DispositivoEstacionamiento extends Dispositivo {
 
-	@Column(name="nroPlaza",columnDefinition="int")
+	@Column(name = "nroPlaza", columnDefinition = "int")
 	private int nroPlaza;
-	
-	@Column(name="ocupado",columnDefinition="boolean")
+
+	@Column(name = "ocupado", columnDefinition = "bit")
 	private boolean ocupado;
 }

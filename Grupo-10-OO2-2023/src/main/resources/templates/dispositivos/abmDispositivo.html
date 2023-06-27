@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dispositivo Estacionamiento ABM - Agregar, Modificar, Eliminar</title>
+    <script>
+        function cambiarOperacion(operacion) {
+            if (operacion === 'agregar') {
+                // Lógica para cambiar a la operación de agregar
+                document.getElementById('operacion').textContent = 'Agregar';
+                document.getElementById('formulario').style.display = 'block';
+                document.getElementById('resultado').style.display = 'none';
+            } else if (operacion === 'modificar') {
+                // Lógica para cambiar a la operación de modificar
+                document.getElementById('operacion').textContent = 'Modificar';
+                document.getElementById('formulario').style.display = 'block';
+                document.getElementById('resultado').style.display = 'none';
+            } else if (operacion === 'eliminar') {
+                // Lógica para cambiar a la operación de eliminar
+                document.getElementById('operacion').textContent = 'Eliminar';
+                document.getElementById('formulario').style.display = 'none';
+                document.getElementById('resultado').style.display = 'block';
+            }
+        }
+    </script>
+    <style>
+        #formulario, #resultado {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<h1>Dispositivo Estacionamiento ABM - Agregar, Modificar, Eliminar</h1>
+<button onclick="cambiarOperacion('agregar')">Agregar</button>
+<button onclick="cambiarOperacion('modificar')">Modificar</button>
+<button onclick="cambiarOperacion('eliminar')">Eliminar</button>
+
+<h2 id="operacion">Selecciona una operación</h2>
+
+<div id="formulario">
+    <!-- Aquí puedes colocar los campos del formulario de agregar/modificar -->
+    <h3>Formulario de Agregar/Modificar</h3>
+    <!-- Agrega los campos del formulario según tus necesidades -->
+    <form th:action="@{/addDispositivo}" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre"><br><br>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido"><br><br>
+
+        <!-- Agrega más campos si es necesario -->
+
+        <input type="submit" value="Enviar">
+    </form>
+</div>
+
+<div id="resultado">
+    <!-- Aquí puedes mostrar los resultados de la operación de eliminar -->
+    <h3>Resultado de Eliminar</h3>
+    <!-- Muestra los resultados según tus necesidades -->
+    <p>El registro ha sido eliminado exitosamente.</p>
+</div>
+</body>
+</html>
