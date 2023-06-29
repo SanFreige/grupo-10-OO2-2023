@@ -1,5 +1,7 @@
 package app.models;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,24 +12,36 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import lombok.Data;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Data
+@NoArgsConstructor @AllArgsConstructor
+@Setter
+@Getter
 @Table(name = "evento")
 public class Evento {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idEvento;
+	private int id;
 
-	@Column(name = "descripcion", columnDefinition = "varchar(45)")
+	@Column(name = "descripcion")
 	private String descripcion;
 
-	@Column(name = "fechaHoraRegistro", columnDefinition = "Time")
-	private String zona;
+	@CreationTimestamp
+	@Column(name="fecha_hora_registro")
+	private LocalDateTime fechaHoraRegistro;
+
 	
-	@ManyToOne(fetch = FetchType.LAZY) //trae un solo aula
-	@JoinColumn(name = "dispositivoId")
+	@ManyToOne
 	private Dispositivo dispositivo;
 }

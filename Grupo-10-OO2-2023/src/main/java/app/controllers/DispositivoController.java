@@ -10,31 +10,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import app.models.Dispositivo;
-import app.models.Zona;
 import app.service.IDispositivoService;
 import lombok.var;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/dispositivo")
 public class DispositivoController {
 	@Autowired()
 	private IDispositivoService services;
 	
-	@GetMapping("/dispositivos")
-	public String traerTodosDispositivos(Model model) {
-
-		var listDispositivos = services.getAll(); // var = Lombok
-
-		model.addAttribute("listDispositivos", listDispositivos);
-
-		return "dispositivo/listDispositivos";
-	}
-
-	@GetMapping("/{idDispositivo}")
-	public String traerPorId(Model model, @PathVariable int idDispositivo) { 
-
-		model.addAttribute("dispositivo", services.findById(idDispositivo));
-
-		return "dispositivo/dispositivo";
+	@GetMapping("/menu")
+	public String menu() {
+		return "dispositivos/menu";
 	}
 }

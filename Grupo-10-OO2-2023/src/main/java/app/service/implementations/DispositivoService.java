@@ -13,13 +13,13 @@ import app.service.IDispositivoService;
 public class DispositivoService implements IDispositivoService {
 	
 	@Autowired()
-	private IDispositivoRepository repositorio;
+	 IDispositivoRepository repositorio;
 	
 	
 	@Override
 	public Dispositivo findById(int idDispositivo) {
 		// TODO Auto-generated method stub
-		return repositorio.findById(idDispositivo).orElse(null);
+		return repositorio.findDispositivoById(idDispositivo);
 	}
 
 	@Override

@@ -1,68 +1,107 @@
 package app.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import app.models.DispositivoEstacionamiento;
+import app.models.Evento;
+import app.models.Dispositivo;
 import app.service.IDispositivoEstacionamientoService;
+import app.service.IEventoService;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/estacionamiento")
 public class DispositivoEstacionamientoController {
-	@Autowired()
-	private IDispositivoEstacionamientoService services;
 	
-	@GetMapping("/addDispositivo")
-	public String guardarDispositivo(@Valid DispositivoEstacionamiento dispositivoEstacionamiento) {
-		return "dispositivos/abmDispositivo";
+	@Autowired
+	 IEventoService servicesEvento;
+	
+	@Autowired
+	 IDispositivoEstacionamientoService services;
+	
+	@GetMapping("/agregar/formnuevo")
+	public String guardarDispositivo(Model model) {
+		DispositivoEstacionamiento estacionamiento = new DispositivoEstacionamiento();
+		model.addAttribute("estacionamiento", estacionamiento);
+		return "dispositivos/form-estacionamiento-nuevo";
 	}
 	
-	@PostMapping("/addDispositivo")
-	public String guardarDispositivo(@Valid DispositivoEstacionamiento dispositivoEstacionamiento, Errors error)
+	@PostMapping("/agregar/formnuevo")
+	public String guardarDispositivo(@Valid @ModelAttribute("estacionamiento") DispositivoEstacionamiento estacionamiento, Errors error, ModelMap model){
+
+		if (error.hasErrors()){
+			return "dispositivos/form-estacionamiento-nuevo";
+		}
+		services.insertOrUpdate(estacionamiento);
+		List<DispositivoEstacionamiento> estacionamientoList = services.getAll();
+		model.addAttribute("estacionamientoList", estacionamientoList);
+		return "dispositivos/lista-estacionamiento";
+	}
+
+	@GetMapping("/formestacionamiento/{id}")
+	public String editarDispositivo(@PathVariable(name="id")int id, Model model) {
+		
+		DispositivoEstacionamiento dispositivoEstacionamiento = services.findById(id);
+		model.addAttribute("estacionamiento", dispositivoEstacionamiento);
+
+		return "dispositivos/form-estacionamiento";
+	}
+
+	@PostMapping("/formestacionamiento/{id}")
+	public String editarDispositivo(@Valid @ModelAttribute("estacionamiento")DispositivoEstacionamiento estacionamiento, Errors error,  ModelMap model)
 	{
 
-		if (error.hasErrors())
-		{
-			return "dispositivo/insert";
+		if (error.hasErrors()){
+			return "dispositivos/form-estacionamiento";
+		}else {
+
+		services.insertOrUpdate(estacionamiento);
+		List<DispositivoEstacionamiento> estacionamientoList = services.getAll();
+		 model.addAttribute("estacionamientoList", estacionamientoList);
 		}
-
-		services.insertOrUpdate(dispositivoEstacionamiento);
-		return "redirect:/dispositivo/listDispositivo";
+		return "dispositivos/lista-estacionamiento";
 	}
 
-	@GetMapping("/editDispositivo")
-	public String editarDispositivo(DispositivoEstacionamiento dispositivoEstacionamiento, Model model) {
+	@GetMapping("/delete-dispositivo/{id}") 
+	public String eliminarDispositivo(@PathVariable(name="id")int id, ModelMap model) {
 
-		model.addAttribute("dispositivo", services.findById(dispositivoEstacionamiento.getIdDispositivo()));
-
-		return "dispositivo/modify";
+		services.remove(id);
+		List<DispositivoEstacionamiento> estacionamientoList = services.getAll();
+		model.addAttribute("estacionamientoList", estacionamientoList);
+		return "dispositivos/lista-estacionamiento";
 	}
+	
+	
+	@GetMapping("/lista")
+    public String traerEstacionamientos(Model model) {
 
-	@PostMapping("/editDispositivo")
-	public String editarDispositivo(@Valid DispositivoEstacionamiento dispositivoEstacionamiento, Errors error)
-	{
+        List<DispositivoEstacionamiento> estacionamientoList = services.getAll();
 
-		if (error.hasErrors())
-		{
-			return "dispositivo/modify";
-		}
+        model.addAttribute("estacionamientoList", estacionamientoList);
 
-		services.insertOrUpdate(dispositivoEstacionamiento);
-		return "redirect:/dispositivo/listDispositivo";
+        return "dispositivos/lista-estacionamiento";
+    }
+	
+	@GetMapping("/eventos/{id}") 
+	public String eventosDispositivo(@PathVariable(name="id")int id, ModelMap model) {
+		Dispositivo dispositivo = services.findById(id);
+		List<Evento> eventoList =  servicesEvento.eventosByDispositivo(id);
+		
+		model.addAttribute("eventoList", eventoList);
+		model.addAttribute("estacionamiento", dispositivo);
+		return "dispositivos/lista-eventos";
 	}
-
-	@GetMapping("/deleteDispositivo") 
-	public String eliminarDispositivo(DispositivoEstacionamiento dispositivoEstacionamiento) {
-
-		services.remove(dispositivoEstacionamiento.getIdDispositivo());
-
-		return "redirect:/dispositivo/listDispositivo";
-	}
+	
 }

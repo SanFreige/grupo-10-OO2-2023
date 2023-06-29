@@ -12,4 +12,6 @@ public interface IEventoService {
 	public boolean insertOrUpdate(Evento evento);
 
 	public boolean remove(int idEvento);
+	
+	public List<Evento> eventosByDispositivo(int id);
 }

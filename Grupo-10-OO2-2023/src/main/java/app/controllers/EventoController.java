@@ -16,13 +16,13 @@ import app.service.IEventoService;
 import lombok.var;
 
 @Controller
-@RequestMapping("/")
-
+@RequestMapping("/evento")
 public class EventoController {
-	@Autowired()
-	private IEventoService services;
 	
-	@GetMapping("/evento")
+	@Autowired
+	 IEventoService services;
+	
+	@GetMapping("/eventos")
 	public String traerTodosEvento(Model model) {
 
 		var listEvento = services.getAll(); // var = Lombok
@@ -52,16 +52,16 @@ public class EventoController {
 		return "redirect:/evento/listEvento";
 	}
 
-	@GetMapping("/editZona") 
-	public String editarEvento(Evento evento, Model model) {
+	@GetMapping("/editEvento") 
+	public String editarEventoGet(Evento evento, Model model) {
 
-		model.addAttribute("evento", services.findById(evento.getIdEvento()));
+		model.addAttribute("evento", services.findById(evento.getId()));
 
 		return "evento/modify";
 	}
 
-	@PostMapping("/editZona")
-	public String editarEvento(@Valid Evento evento, Errors error) 
+	@PostMapping("/editEvento")
+	public String editarEventoPost(@Valid Evento evento, Errors error) 
 	{
 
 		if (error.hasErrors()) 
@@ -77,7 +77,7 @@ public class EventoController {
 	@GetMapping("/deleteEvento") 
 	public String eliminarZona(Evento evento) {
 
-		services.remove(evento.getIdEvento()); 
+		services.remove(evento.getId()); 
 
 		return "redirect:/evento/listEvento"; 
 	}
